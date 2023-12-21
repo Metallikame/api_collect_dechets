@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Collecte des déchets</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div id="app" class="container mt-4">
+    <h1>Recherche des jours de collecte des déchets</h1>
+    <div class="form-group">
+        <label for="numeroRue">Numéro de rue</label>
+        <input type="number" id="numeroRue" class="form-control" placeholder="Entrez le numéro de rue...">
+    </div>
+    <div class="form-group">
+        <label for="libelleRue">Nom de rue</label>
+        <input type="text" id="libelleRue" class="form-control" placeholder="Entrez le libellé de la rue...">
+    </div>
+    <div class="form-group">
+        <label for="ville">Code postal</label>
+        <input type="number" id="codePostal" class="form-control" placeholder="Entrez le code postal de la ville...">
+    </div>
+    <div class="form-group">
+        <label for="ville">Ville</label>
+        <input type="text" id="ville" class="form-control" placeholder="Entrez le nom de la ville...">
+    </div>
+    <button class="btn btn-primary" @click="rechercherJour">Rechercher</button>
+
+    <div id="resultat" class="mt-4"></div>
+</div>
+
+</body>
+</html>
