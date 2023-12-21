@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Collecte des déchets</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
@@ -20,21 +20,21 @@
 
     <div id="resultat" class="mt-4">
         <h2>Résultats de la recherche :</h2>
-        <ul v-if="results.length > 0">
-            <li v-for="(result, index) in results" :key="index">
-                <strong>{{ result.libelle }}</strong> - Commune : {{ result.commune }}<br>
-                Prestation collecte : {{ result.prestation_collecte }}<br>
-                Mode collecte : {{ result.mode_collecte }}<br>
-                Bleu jour collecte : {{ result.bleu_jour_collecte }}<br>
-                Jaune jour collecte : {{ result.jaune_jour_collecte }}
-            </li>
-        </ul>
-        <p v-else>Aucun résultat trouvé.</p>
+        <div class="row">
+            <div class="col-md-6" v-for="(result, index) in results" :key="index">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title"><strong>{{ result.libelle }}</strong> - {{ result.commune }}</h5>
+                        <p class="card-text">Mode de collecte : {{ result.mode_collecte }}</p>
+                        <p class="card-text">Prestation collecte : {{ result.prestation_collecte }}</p>
+                        <p class="card-text">Jour bacs bleus : {{ result.bleu_jour_collecte }}</p>
+                        <p class="card-text">Jour des bacs jaunes : {{ result.jaune_jour_collecte }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p v-if="results.length === 0">Aucun résultat trouvé.</p>
     </div>
-
-    <!-- Vos autres éléments Vue.js existants -->
-    <!-- ... -->
-
 </div>
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
