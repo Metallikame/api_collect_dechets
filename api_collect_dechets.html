@@ -1,34 +1,72 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Collecte des déchets</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Vos styles CSS personnalisés ici */
+    </style>
 </head>
 <body>
 <div id="app" class="container mt-4">
     <h1>Recherche des jours de collecte des déchets</h1>
     <div class="form-group">
-        <label for="numeroRue">Numéro de rue</label>
-        <input type="number" id="numeroRue" class="form-control" placeholder="Entrez le numéro de rue...">
-    </div>
-    <div class="form-group">
-        <label for="libelleRue">Nom de rue</label>
+        <label for="libelleRue">Libellé de la rue</label>
         <input type="text" id="libelleRue" class="form-control" placeholder="Entrez le libellé de la rue...">
-    </div>
-    <div class="form-group">
-        <label for="ville">Code postal</label>
-        <input type="number" id="codePostal" class="form-control" placeholder="Entrez le code postal de la ville...">
-    </div>
-    <div class="form-group">
-        <label for="ville">Ville</label>
-        <input type="text" id="ville" class="form-control" placeholder="Entrez le nom de la ville...">
     </div>
     <button class="btn btn-primary" @click="rechercherJour">Rechercher</button>
 
-    <div id="resultat" class="mt-4"></div>
+    <div id="resultat" class="mt-4">
+        <h2>Résultats de la recherche :</h2>
+        <ul v-if="results.length > 0">
+            <li v-for="(result, index) in results" :key="index">
+                <strong>{{ result.libelle }}</strong> - Commune : {{ result.commune }}<br>
+                Prestation collecte : {{ result.prestation_collecte }}<br>
+                Mode collecte : {{ result.mode_collecte }}<br>
+                Bleu jour collecte : {{ result.bleu_jour_collecte }}<br>
+                Jaune jour collecte : {{ result.jaune_jour_collecte }}
+            </li>
+        </ul>
+        <p v-else>Aucun résultat trouvé.</p>
+    </div>
+
+    <!-- Vos autres éléments Vue.js existants -->
+    <!-- ... -->
+
 </div>
 
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/vue@3"></script>
+<script>
+    const apiURL = "https://data.nantesmetropole.fr/api/explore/v2.1/catalog/datasets/244400404_jours-collectes-dechets-nantes/records?where=libelle%3D%22";
+
+    Vue.createApp({
+        data() {
+            return {
+                results: []
+            };
+        },
+        methods: {
+            rechercherJour() {
+                const libelleRue = document.getElementById('libelleRue').value;
+
+                // Encodage de l'URL avec le libellé de la rue
+                const encodedLibelleRue = encodeURIComponent(libelleRue);
+                const apiUrl = `${apiURL}${encodedLibelleRue}%22`;
+
+                axios.get(apiUrl)
+                    .then(response => {
+                        const data = response.data;
+                        this.results = data.results || []; // Récupération des résultats de l'API
+                    })
+                    .catch(error => {
+                        console.error('Erreur de recherche : ', error); //Message d'erreur
+                    });
+            },
+        },
+    }).mount('#app');
+</script>
 </body>
 </html>
